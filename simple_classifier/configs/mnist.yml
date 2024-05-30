@@ -1,0 +1,76 @@
+experiment:
+  name: "baseline"
+  work_dir: "/Users/alexander/Desktop/simple_classifier/simple_classifier/exp"
+
+  seed: 2334
+
+
+image_params:
+  size: 28
+
+
+training:
+  total_epochs: 10
+  eval_freq: 2
+
+  augs:
+    level: low
+
+  dataset_dir: "/Users/alexander/Desktop/simple_classifier/simple_classifier/data"
+
+
+model:
+  name: efficientnet_b0
+
+
+dataset:
+  imgs_per_epoch: 512
+
+
+loader:
+  train:
+    batch_size: 32
+    shuffle: true
+    num_workers: 12
+    drop_last: true
+    pin_memory: true
+
+  validation:
+    batch_size: 32
+    shuffle: false
+    num_workers: 12
+    pin_memory: true
+
+
+loss:
+  type: torch.nn.CrossEntropyLoss
+  params: { }
+
+
+optimizer:
+  type: torch.optim.AdamW
+  params:
+    lr: 0.003
+    weight_decay: 0.00002
+
+
+lr_scheduler:
+  type: torch.optim.lr_scheduler.ReduceLROnPlateau
+  params:
+    mode: max
+    factor: 0.3
+    patience: 15
+    min_lr: 0.000001
+
+
+classes:
+  - class_0
+  - class_1
+  - class_2
+  - class_3
+  - class_4
+  - class_5
+  - class_6
+  - class_7
+  - class_8
+  - class_9

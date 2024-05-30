@@ -1,0 +1,5 @@
+types-orjson
+types-ujson
+types-dateparser
+types-dataclasses
+mypy>=0.982

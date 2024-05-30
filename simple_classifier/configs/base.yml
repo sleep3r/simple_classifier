@@ -1,0 +1,8 @@
+image_params:
+  size: 512
+
+training:
+  augs:
+    level: high
+
+classes: []
