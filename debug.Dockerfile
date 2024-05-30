@@ -17,5 +17,3 @@ RUN pip install -r requirements/requirements.txt --extra-index-url=https://repo.
 RUN pip install -r requirements/requirements-debug.txt --index-url=https://pypi.python.org/simple
 
 COPY . .
-
-ENTRYPOINT ["bash", "mleco/entrypoint.sh"]

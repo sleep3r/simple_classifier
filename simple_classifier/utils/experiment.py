@@ -116,7 +116,7 @@ def prepare_exp(
     # set random seed, exp name
     meta = determine_exp(cfg, meta, logger=logger)
 
-    # # setup mleco training
+    # # setup training
     # meta, training = setup_training(
     #     cfg,
     #     meta,

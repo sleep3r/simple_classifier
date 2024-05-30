@@ -17,7 +17,7 @@ setup(
     use_scm_version={"fallback_version": "no_git"},
     description="Image classification train",
     author="Aleksandr Kalashnikov",
-    packages=find_packages(exclude=("mleco", "tests")),
+    packages=find_packages(exclude=("tests")),
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3.9",

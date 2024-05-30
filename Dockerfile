@@ -17,5 +17,3 @@ COPY requirements ./requirements
 RUN pip install -r requirements/requirements.txt --index-url=https://repo.sberned.ru/repository/pypi-public/simple
 
 COPY . .
-
-ENTRYPOINT ["bash", "mleco/entrypoint.sh"]

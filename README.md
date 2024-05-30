@@ -27,7 +27,6 @@
         ├── validation
         └── test
         ```
-    4. Грузим датасет на mleco
 
 2. В директории `configs/` создаём конфиг `<task_name>.yml`. Он полностью наследует `base.yml`, но имеет смысл
    переопределить некоторые его части:
@@ -55,18 +54,14 @@
           augs:
             level: <low/high> # пока что пара режимов с разной степенью аугов
         ```
-    3. `training.mleco`
+    3. `training`
          ```yml
-        mleco:
-            model_name: <model_name>
-            dataset_name: <dataset_name>
-            dataset_version: <dataset_version>
-            dataset_dir: <dataset_dir>
+        dataset_dir: <dataset_dir>
          ```
 
     4. `model`
         Параметры модели.
-        Указываем название модели. Подойдут любые работающие с `timm` и предобученные веса которых загружены в хаб моделей MLECO.
+        Указываем название модели. Подойдут любые работающие с `timm`
 
         При необходимости дообучить модель добавляем в конфиг:
           ```yml
