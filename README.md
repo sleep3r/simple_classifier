@@ -62,16 +62,7 @@
     4. `model`
         Параметры модели.
         Указываем название модели. Подойдут любые работающие с `timm`
-
-        При необходимости дообучить модель добавляем в конфиг:
-          ```yml
-         model:
-             load_from:
-               model_name: document_image_clf
-               training_id: 19
-               model_dir: "/data/smart_vision/image_clf/models/document_image_clf/19"
-               checkpoint_name: best_model.pth
-          ```
+ 
 Теперь можно учить:
   ```
   make train CONFIG=<task_name>.yml
