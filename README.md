@@ -64,6 +64,6 @@
         Указываем название модели. Подойдут любые работающие с `timm`
  
 Теперь можно учить:
-  ```
-  make train CONFIG=<task_name>.yml
-  ```
+```bash
+make train CONFIG=<task_name>.yml
+```
