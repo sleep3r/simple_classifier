@@ -22,8 +22,7 @@
                 ├── <file_name_1>
             ├── <class_name_1>
             └── ...
-        ├── validation
-        └── test
+        └── validation
         ```
 
 2. В директории `configs/` создаём конфиг `<task_name>.yml`. Он полностью наследует `base.yml`, но имеет смысл
