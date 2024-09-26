@@ -21,7 +21,12 @@ from utils.progress import inference_progress
 def load_model(cfg: DLConfig) -> torch.nn.Module:
     model = timm.create_model(cfg.model.name, pretrained=True)
     model.reset_classifier(num_classes=len(cfg.classes))
-    model.cuda() if torch.cuda.is_available() else model.cpu()
+    if torch.cuda.is_available():
+        model.cuda()
+    elif torch.backends.mps.is_available():
+        model.to(torch.device("mps"))
+    else:
+        model.cpu()
     return model
 
 
@@ -68,6 +73,8 @@ def train_epoch(
         inputs, targets = batch
         if torch.cuda.is_available():
             inputs, targets = inputs.cuda(), targets.cuda()
+        elif torch.backends.mps.is_available():
+            inputs, targets = inputs.to(torch.device("mps")), targets.to(torch.device("mps"))
 
         optimizer.zero_grad()
         outputs = model(inputs)
@@ -95,6 +102,8 @@ def valid_epoch(
             inputs, targets = batch
             if torch.cuda.is_available():
                 inputs, targets = inputs.cuda(), targets.cuda()
+            elif torch.backends.mps.is_available():
+                inputs, targets = inputs.to(torch.device("mps")), targets.to(torch.device("mps"))
 
             outputs = model(inputs)
             _, preds = torch.max(outputs, 1)
@@ -126,6 +135,8 @@ def eval_epoch(
             inputs, targets = batch
             if torch.cuda.is_available():
                 inputs, targets = inputs.cuda(), targets.cuda()
+            elif torch.backends.mps.is_available():
+                inputs, targets = inputs.to(torch.device("mps")), targets.to(torch.device("mps"))
 
             outputs = model(inputs)
             _, preds = torch.max(outputs, 1)
@@ -154,7 +165,10 @@ def train(cfg: DLConfig, meta: dict, logger: logging.Logger) -> torch.nn.Module:
     logger.info(f"Loaded - validation: {len(valid_dataset.samples)} files")
 
     loss = object_from_dict(cfg.loss)
-    loss.cuda()
+    if torch.cuda.is_available():
+        loss.cuda()
+    elif torch.backends.mps.is_available():
+        loss.to(torch.device("mps"))
     optimizer = object_from_dict(cfg.optimizer, params=model.parameters())
     scheduler = object_from_dict(cfg.lr_scheduler, optimizer=optimizer)
 
@@ -211,6 +225,8 @@ def evaluate(model: torch.nn.Module, cfg: DLConfig, meta: dict, logger: logging.
 
     if torch.cuda.is_available():
         model.cuda()
+    elif torch.backends.mps.is_available():
+        model.to(torch.device("mps"))
 
     logger.info("Dataset initialization...")
 

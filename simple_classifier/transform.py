@@ -23,33 +23,22 @@ def get_training_augmentation(
 
     train_transform = [
         albu.Resize(image_size, image_size),
-        albu.OneOf(
-            [
-                albu.CoarseDropout(
-                    min_holes=4,
-                    max_holes=6,
-                    max_height=image_size // 10,
-                    max_width=image_size // 10,
-                ),
-                albu.RandomSunFlare(
-                    flare_roi=(0, 0, 1, 1),
-                    num_flare_circles_lower=1,
-                    num_flare_circles_upper=4,
-                    src_radius=image_size // 4,
-                    p=0.05,
-                ),
-            ],
-            p=0.3,
+        albu.CoarseDropout(
+            min_holes=4,
+            max_holes=6,
+            max_height=image_size // 10,
+            max_width=image_size // 10,
+            p=0.15,
         ),
         albu.ShiftScaleRotate(
             shift_limit=0.05,
             scale_limit=0.05,
-            rotate_limit=5,
+            rotate_limit=3,
             border_mode=cv2.BORDER_CONSTANT,
             interpolation=cv2.INTER_LANCZOS4,
-            p=0.3,
+            p=0.15,
         ),
-        albu.OneOf([albu.HueSaturationValue(p=0.5), albu.ToGray(p=0.2)]),
+        albu.OneOf([albu.HueSaturationValue(p=0.2), albu.ToGray(p=0.1)]),
         albu.OneOf(
             [
                 albu.Perspective(scale=(0.01, 0.1), p=0.5),
@@ -58,17 +47,23 @@ def get_training_augmentation(
                     p=0.5,
                     alpha=image_size * 1.2,
                     sigma=image_size * 1.2 * 0.05,
-                    alpha_affine=image_size * 1.2 * 0.03,
                     border_mode=cv2.BORDER_REFLECT,
                 ),
-                albu.GridDistortion(p=0.5, distort_limit=0.5, border_mode=cv2.BORDER_REFLECT),
+                albu.GridDistortion(
+                    p=0.5,
+                    distort_limit=0.5,
+                    border_mode=cv2.BORDER_REFLECT,
+                ),
                 albu.OpticalDistortion(
-                    p=0.5, distort_limit=0.5, shift_limit=0.5, border_mode=cv2.BORDER_REFLECT
+                    p=0.5,
+                    distort_limit=0.5,
+                    shift_limit=0.5,
+                    border_mode=cv2.BORDER_REFLECT,
                 ),
             ],
-            p=0.3,
+            p=0.1,
         ),
-        albu.CLAHE(p=0.4),
+        albu.CLAHE(p=0.2),
         albu.RandomBrightnessContrast(
             brightness_limit=0.5,
             contrast_limit=0.5,
@@ -85,11 +80,8 @@ def get_training_augmentation(
             ],
             p=0.3,
         ),
-        albu.ImageCompression(quality_lower=50, p=0.3),
+        albu.ImageCompression(quality_lower=50, p=0.2),
         albu.Downscale(scale_min=0.75, scale_max=0.99, p=0.1),
-        albu.RandomRotate90(p=0.5),
-        albu.HorizontalFlip(p=0.5),
-        albu.Rotate(limit=20, p=0.2),
     ]
     return albu.Compose(train_transform)
 
